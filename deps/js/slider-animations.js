@@ -5,6 +5,7 @@ const animationClassNames = ["scranim:", "scroll-animation:",]
 const baseChildAnimationClassNames = ["*:scranim:", "*:scroll-animation:",]
 const allChildAnimationClassNames = ["**:scranim:", "**:scroll-animation:",]
 const animationUpClassName = "scranimup:"
+const baseChildAnimationUpClassNames = ["*:scranimup:", "*:scroll-animation-up:",]
 
 class AnimationNode {
     constructor(element, animationName, delay, animationUpName) {
@@ -25,6 +26,7 @@ let baseChildAnimationNodes = [];
 let allChildAnimationNodes = [];
 
 let lastScrollTop = 0;
+let scrollDelta = 0;
 
 function isInViewport(element) {
     let bounding = element.getBoundingClientRect();
@@ -38,9 +40,13 @@ window.addEventListener("load", () => {
     setupNodes();
     const observer = new MutationObserver(callback);
     observer.observe(rootNode.firstChild, config);
+    lastScrollTop = window.scrollY <= 0 ? 0 : window.scrollY;
+    scrollDelta = -1;              
     scrollUpdate();
     document.addEventListener("scroll", (event) => {
+        scrollDelta = lastScrollTop - window.scrollY;
         scrollUpdate();
+        lastScrollTop = window.scrollY <= 0 ? 0 : window.scrollY;
     })  
 })
 
@@ -51,17 +57,18 @@ function scrollUpdate(){
         if(inViewport && animNode.played == false){
             animNode.played = true;
             setTimeout(() => {
-                if (window.scrollY < lastScrollTop) {
-                    // UP
+                // Scrolling up:
+                if (scrollDelta > 0) {
                     if(typeof animNode.animationUpName === "string"){
                         element.classList.add(animNode.animationUpName);
                         return;        
                     }
+                } // Scrolling down:
+                else if(scrollDelta < 0){
+                    element.classList.add(animNode.animationName);
                 }
-                element.classList.add(animNode.animationName);
-                lastScrollTop = window.scrollY <= 0 ? 0 : window.scrollY;                
             }, animNode.delay);
-        }else if(!inViewport){
+        }else if(!inViewport && typeof animNode.animationUpName === "string"){
             element.classList.remove(animNode.animationUpName);
             element.classList.remove(animNode.animationName);
             animNode.played = false
@@ -100,6 +107,14 @@ function setupNodes(){
                     return;
                 }
             })
+
+            baseChildAnimationUpClassNames.forEach(animationName => {
+                if(str.startsWith(animationName)){
+                    animationNode = new AnimationNode(element, null, 0, str.slice(animationName.length));
+                    baseChildAnimationNodes.push(animationNode);
+                    return;
+                }
+            })
             
             allChildAnimationClassNames.forEach(animationName => {
                 if(str.startsWith(animationName)){
@@ -130,7 +145,7 @@ function setupNodes(){
             if(animNode != null && animNode != undefined){
                 animNode.element.childNodes.forEach((node) => {
                     if(node instanceof HTMLElement){
-                        animationNodes.push(new AnimationNode(node, animNode.animationName));
+                        animationNodes.push(new AnimationNode(node, animNode.animationName, 0, animNode.animationUpName));
                     }
                 })
             }
@@ -142,7 +157,7 @@ function setupNodes(){
             if(animNode != null && animNode != undefined){
                 animNode.element.childNodes.querySelectorAll("*").forEach((node) => {
                     if(node instanceof HTMLElement){
-                        animationNodes.push(new AnimationNode(node, animNode.animationName));
+                        animationNodes.push(new AnimationNode(node, animNode.animationName, 0, animNode.animationUpName));
                     }
                 })
             }
