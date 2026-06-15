@@ -1823,7 +1823,11 @@ nazwa: bind9<br>
 - zone “domena.local” { type master; file “/etc/bind/db.domena”; };<br>
 - $TTL 1d/3600/2h/30m<br>
 - Zamiana localhost na domena.local w db<br>
-- Zamiana 127.0.0.1 na ip serwera gdzie jest dns - poddomeny www, ftp zamiast @ - IN NS, IN A - <code>ftp IN CNAME domena.local.</code> - kropki na koncu nazw domen<br>
+- Zamiana 127.0.0.1 na ip serwera gdzie jest dns<br>
+- poddomeny www, ftp zamiast @<br>
+- IN NS, IN A<br>
+- <code>ftp IN CNAME domena.local.</code><br>
+- kropki na koncu nazw domen<br>
 - named-checkzone <em>domena.local</em> <em>/etc/bind/db.domena</em> - testy pliku<br>
 - nslookup domena.local - test dzialania</p>
 </section>
@@ -1836,11 +1840,14 @@ Nazwa: ssh/sshd<br>
 - AllowUsers janek adam<br>
 - sudo systemctl <em>daemon-reload</em><br>
 - sudo systemctl restart <em>ssh shh.socket</em><br>
-- <code>ssh user@IP -p PORT</code> - laczenie - <code>scp -P PORT plik.txt user@IP:/sciezka/</code> - kopiowanie</p>
+- <code>ssh user@IP -p PORT</code> - laczenie<br>
+- <code>scp -P PORT plik.txt user@IP:/sciezka/</code> - kopiowanie</p>
 </section>
 <section id="isc-dhcp-server" class="level4" data-number="11.0.0.7">
 <h4 data-number="11.0.0.7" class="anchored" data-anchor-id="isc-dhcp-server"><span class="header-section-number">11.0.0.7</span> ISC-DHCP-SERVER</h4>
-<p>NAZWA: isc-dhcp-server Plik: <code>/etc/default/isc-dhcp-server</code> (DEFAULT!!!!) wybor kart Plik: <code>/etc/dhcp/dhcpd.conf</code> konfiguracja<br>
+<p>NAZWA: isc-dhcp-server<br>
+Plik: <code>/etc/default/isc-dhcp-server</code> (DEFAULT!!!!) wybor kart<br>
+Plik: <code>/etc/dhcp/dhcpd.conf</code> konfiguracja<br>
 - INTERFACESv4=“enp0s8”<br>
 - Fajne przyklady w dhcpd, zamienic domene z ip<br>
 - <code>dhcpd -t -cf /etc/dhcp/dhcpd.conf</code> - testowanie konfigu</p>
@@ -1849,16 +1856,36 @@ Nazwa: ssh/sshd<br>
 <h4 data-number="11.0.0.8" class="anchored" data-anchor-id="samba-1"><span class="header-section-number">11.0.0.8</span> SAMBA</h4>
 <p>Nazwa: smbd i nmbd<br>
 Plik: <code>/etc/samba/smb.conf</code><br>
-- sudo smbpassw -a nazwa !!! - workgroup - nazwa grupy roboczej - testparm - writeable/read only = no !!! - [homes] - valid users = %s - directory/create mask - browseable - guest ok - path - force group - printable (drukarka eh)</p>
+- sudo smbpassw -a nazwa !!!<br>
+- workgroup - nazwa grupy roboczej<br>
+- testparm<br>
+- writeable/read only = no !!!<br>
+- [homes]<br>
+- valid users = %s<br>
+- directory/create mask<br>
+- browseable<br>
+- guest ok<br>
+- path<br>
+- force group<br>
+- printable (drukarka eh)</p>
 </section>
 <section id="vsftpd" class="level4" data-number="11.0.0.9">
 <h4 data-number="11.0.0.9" class="anchored" data-anchor-id="vsftpd"><span class="header-section-number">11.0.0.9</span> VSFTPD</h4>
-<p>Nazwa: vsftpd Plik: <code>/etc/vsftpd.conf</code> - anonymous_enable=YES - local_enable=YES - local_root=/ - chroot_local_user=YES - allow_writeable_chroot=YES !!! - write_enable=YES (WAŻNE) - pamietac o uprawnieniach w linuxie</p>
+<p>Nazwa: vsftpd<br>
+Plik: <code>/etc/vsftpd.conf</code><br>
+- anonymous_enable=YES<br>
+- local_enable=YES<br>
+- local_root=/<br>
+- chroot_local_user=YES<br>
+- allow_writeable_chroot=YES !!!<br>
+- write_enable=YES (WAŻNE)<br>
+- pamietac o uprawnieniach w linuxie</p>
 </section>
 <section id="windows-serwer" class="level4" data-number="11.0.0.10">
 <h4 data-number="11.0.0.10" class="anchored" data-anchor-id="windows-serwer"><span class="header-section-number">11.0.0.10</span> WINDOWS SERWER</h4>
 <ul>
-<li>dodajesz funkcje i wybierasz usluge</li>
+<li>dodajesz funkcje i wybierasz usluge<br>
+</li>
 <li>zarzadzanie i klikasz logicznie</li>
 </ul>
 </section>
